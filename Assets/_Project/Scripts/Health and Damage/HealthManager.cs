@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
+    [SerializeField] int _startHealth = 100;
     public int health { get; private set; }
     public void SetHealth(int value)
     {
@@ -22,16 +23,7 @@ public class HealthManager : MonoBehaviour
             On0Health?.Invoke();
         }
     }
-    public HealthManager()
-    {
 
-    }
     public static event Action On0Health;
-
-    
 }
 
-public enum DamageDirection
-{
-    Player, Enemy, All
-}
