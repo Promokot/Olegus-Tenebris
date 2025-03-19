@@ -16,13 +16,7 @@ public class LizardAgro : LizardBaseState
     {
         base.UpdateState(manager);
 
-        NavMeshPath path = new NavMeshPath();
-        NavMesh.CalculatePath(stateManager.transform.position, stateManager.player.transform.position, NavMesh.AllAreas, path);
-        float distance = 0;
-        for (int i = 0; i < path.corners.Length - 1; i++)
-        {
-            distance += (path.corners[i] - path.corners[i + 1]).magnitude;
-        }
+        float distance = stateManager.CalculateDistanceToPlayer();
         if(distance != 0)
         {
             if (distance > stateManager.AgroRadius)
@@ -36,9 +30,5 @@ public class LizardAgro : LizardBaseState
                 return;
             }
         }
-
-        
-
-
     }
 }

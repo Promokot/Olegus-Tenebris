@@ -30,7 +30,7 @@ public class LizardStateManager : BaseBehaviourManager
     {
         base.Start();
         SetTarget(player);
-        SwitchState(lizardAgro);
+        SwitchState(lizardIdle);
     }
     protected override void Update()
     {

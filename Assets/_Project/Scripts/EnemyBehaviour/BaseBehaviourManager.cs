@@ -6,8 +6,7 @@ public abstract class BaseBehaviourManager : MonoBehaviour
     protected BaseState currentState;
     public Transform target { get; private set; }
 
-    private float moveSpeed;
-    private float rotationSpeed;
+    [SerializeField] private float rotationSpeed;
 
 
 
@@ -39,7 +38,7 @@ public abstract class BaseBehaviourManager : MonoBehaviour
     }
     public void SetMoveSpeed(float newSpeed)
     {
-        moveSpeed = newSpeed;
+        navMesh.speed = newSpeed;
     }
     public void SetRotationSpeed(float newSpeed)
     {
@@ -72,5 +71,17 @@ public abstract class BaseBehaviourManager : MonoBehaviour
         {
             Debug.LogWarning("Current state is Null on " + gameObject);
         }
+    }
+
+    public float CalculateDistanceToPlayer()
+    {
+        NavMeshPath path = new NavMeshPath();
+        NavMesh.CalculatePath(transform.position, player.transform.position, NavMesh.AllAreas, path);
+        float distance = 0;
+        for (int i = 0; i < path.corners.Length - 1; i++)
+        {
+            distance += (path.corners[i] - path.corners[i + 1]).magnitude;
+        }
+        return distance;
     }
 }
