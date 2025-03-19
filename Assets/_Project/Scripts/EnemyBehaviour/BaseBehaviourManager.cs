@@ -1,19 +1,26 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class BaseBehaviourManager : MonoBehaviour
 {
     protected BaseState currentState;
     public Transform target { get; private set; }
 
-    [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float rotationSpeed;
+    private float moveSpeed;
+    private float rotationSpeed;
+
+
+
+
+
     bool isRotating = false;
+    public Transform player { get; private set; }
+    public NavMeshAgent navMesh { get; protected set; }
     public void SwitchState(BaseState newState)
     {
         if (currentState != null) currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
-        Debug.Log(this);
     }
     public void RotateToTarget()
     {
@@ -30,11 +37,40 @@ public abstract class BaseBehaviourManager : MonoBehaviour
     {
         isRotating = isRotationOn;
     }
-
+    public void SetMoveSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
+    }
+    public void SetRotationSpeed(float newSpeed)
+    {
+        rotationSpeed = newSpeed;
+    }
     protected virtual void FixedUpdate()
     {
         if (isRotating) RotateToTarget();
-
+        if (target != null) navMesh.destination = target.position;
     }
-
+    protected virtual void Start()
+    {
+        if (TryGetComponent<NavMeshAgent>(out NavMeshAgent agent)) navMesh = agent;
+        if (GameObject.FindGameObjectsWithTag("Player").Length == 1)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        else
+        {
+            Debug.LogError("1 GameObject With Tag 'Player' is Required in scene");
+        }
+    }
+    protected virtual void Update()
+    {
+        try
+        {
+            currentState.UpdateState(this);
+        }
+        catch
+        {
+            Debug.LogWarning("Current state is Null on " + gameObject);
+        }
+    }
 }

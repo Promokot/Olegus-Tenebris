@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LizardBaseState : BaseState
+public abstract class LizardBaseState : BaseState
 {
     protected LizardStateManager stateManager;
     public override void EnterState(BaseBehaviourManager manager)
