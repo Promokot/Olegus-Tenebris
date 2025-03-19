@@ -25,5 +25,9 @@ public class HealthManager : MonoBehaviour
     }
 
     public static event Action On0Health;
+    private void Start()
+    {
+        health = _startHealth;
+    }
 }
 

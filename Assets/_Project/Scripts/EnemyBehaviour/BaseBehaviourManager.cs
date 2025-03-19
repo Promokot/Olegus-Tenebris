@@ -1,17 +1,15 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class BaseBehaviourManager : MonoBehaviour, IBehaviourManager
+public abstract class BaseBehaviourManager : MonoBehaviour
 {
     protected BaseState currentState;
     public Transform target { get; private set; }
 
-    [SerializeField] public float moveSpeed { get; protected set; }
-    [SerializeField] public float rotationSpeed { get; protected set; }
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float rotationSpeed;
     bool isRotating = false;
     public void SwitchState(BaseState newState)
     {
-        Debug.Log("test");
         if (currentState != null) currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
@@ -33,8 +31,10 @@ public class BaseBehaviourManager : MonoBehaviour, IBehaviourManager
         isRotating = isRotationOn;
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (isRotating) RotateToTarget();
+
     }
+
 }

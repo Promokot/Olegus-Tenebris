@@ -13,8 +13,4 @@ public class LizardStateManager : BaseBehaviourManager
     {
         SwitchState(lizardAgro);
     }
-    protected override void Update()
-    {
-        
-    }
 }
