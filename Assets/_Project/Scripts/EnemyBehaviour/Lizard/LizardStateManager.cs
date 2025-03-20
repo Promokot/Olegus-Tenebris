@@ -22,13 +22,15 @@ public class LizardStateManager : BaseBehaviourManager
     }
 
     public LizardAgro lizardAgro { get; private set; } = new LizardAgro();
-    public LizardAttack lizardAttack { get; private set; } = new LizardAttack();
+    public LizardAttack lizardAttack { get; private set; } = new LizardAttack(ExitStateAnimationConfirmation.Required);
     public LizardIdle lizardIdle { get; private set; } = new LizardIdle();
+    public LizardDead lizardDead { get; private set; } = new LizardDead();
 
 
     protected override void Start()
     {
         base.Start();
+
         SetTarget(player);
         SwitchState(lizardIdle);
     }
@@ -37,5 +39,10 @@ public class LizardStateManager : BaseBehaviourManager
         base.Update();
 
         Debug.Log(currentState);
+    }
+    protected override void Die()
+    {
+        base.Die();
+        SwitchState(lizardDead);
     }
 }

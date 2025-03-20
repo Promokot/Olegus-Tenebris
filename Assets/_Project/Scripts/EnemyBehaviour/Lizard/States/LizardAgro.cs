@@ -1,16 +1,20 @@
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.AI;
-using static Unity.VisualScripting.Member;
 
 public class LizardAgro : LizardBaseState
 {
+    public LizardAgro() : base()
+    {
+    }
+
     public override void EnterState(BaseBehaviourManager manager)
     {
         base.EnterState(manager);
+        stateManager.animator.SetBool("isInAgroRadius",true);
         stateManager.SetTarget(stateManager.player);
         stateManager.SetMoveSpeed(stateManager.WalkSpeed);
+
+        Debug.Log("Agro Enter");
     }
     public override void UpdateState(BaseBehaviourManager manager)
     {
@@ -31,4 +35,5 @@ public class LizardAgro : LizardBaseState
             }
         }
     }
+    
 }

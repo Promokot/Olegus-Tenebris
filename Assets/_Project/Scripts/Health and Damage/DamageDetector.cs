@@ -8,17 +8,17 @@ public class DamageDetector : MonoBehaviour, IDamageDetectable
     [SerializeField] HealthManager healthManager;
     public void DetectDamage(Damage damage)
     {
-        if ((_thisDetectorType == DetectorType.enemy) && (damage.dDirection == DamageDirection.Player)) return;
-        if ((_thisDetectorType == DetectorType.player) && (damage.dDirection == DamageDirection.Enemy)) return;
+        if ((_thisDetectorType == DetectorType.enemy) && (damage.Direction == DamageDirection.Player)) return;
+        if ((_thisDetectorType == DetectorType.player) && (damage.Direction == DamageDirection.Enemy)) return;
 
-        switch (damage.dDamageType)
+        switch (damage.DamageType)
         {
             case DamageType.Physical:
             {
                     //
                     try
                     {
-                        healthManager.ChangeHealth(damage.dAmount);
+                        healthManager.ChangeHealth(-damage.Amount);
                     }
                     catch
                     {
@@ -32,7 +32,7 @@ public class DamageDetector : MonoBehaviour, IDamageDetectable
                     //
                     try
                     {
-                        healthManager.ChangeHealth(damage.dAmount);
+                        healthManager.ChangeHealth(-damage.Amount);
                     }
                     catch
                     {

@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class LizardIdle : LizardBaseState
 {
+    public LizardIdle() : base()
+    {
+    }
+
     public override void EnterState(BaseBehaviourManager manager)
     {
         base.EnterState(manager);
-
+        stateManager.animator.SetBool("isInAgroRadius", false);
         stateManager.SetMoveSpeed(0);
     }
 

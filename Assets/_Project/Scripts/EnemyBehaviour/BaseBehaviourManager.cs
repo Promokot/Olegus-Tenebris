@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,13 +9,10 @@ public abstract class BaseBehaviourManager : MonoBehaviour
 
     [SerializeField] private float rotationSpeed;
 
-
-
-
-
     bool isRotating = false;
     public Transform player { get; private set; }
     public NavMeshAgent navMesh { get; protected set; }
+    public Animator animator { get; protected set; }
     public void SwitchState(BaseState newState)
     {
         if (currentState != null) currentState.ExitState(this);
@@ -38,7 +36,7 @@ public abstract class BaseBehaviourManager : MonoBehaviour
     }
     public void SetMoveSpeed(float newSpeed)
     {
-        navMesh.speed = newSpeed;
+        if(navMesh != null) navMesh.speed = newSpeed;
     }
     public void SetRotationSpeed(float newSpeed)
     {
@@ -47,11 +45,13 @@ public abstract class BaseBehaviourManager : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         if (isRotating) RotateToTarget();
-        if (target != null) navMesh.destination = target.position;
+        if ((target != null) && (navMesh != null)) navMesh.destination = target.position;
     }
     protected virtual void Start()
     {
         if (TryGetComponent<NavMeshAgent>(out NavMeshAgent agent)) navMesh = agent;
+        if (TryGetComponent<Animator>(out Animator anim)) animator = anim;
+        if (TryGetComponent<HealthManager>(out HealthManager health)) health.On0Health += Die;
         if (GameObject.FindGameObjectsWithTag("Player").Length == 1)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -83,5 +83,24 @@ public abstract class BaseBehaviourManager : MonoBehaviour
             distance += (path.corners[i] - path.corners[i + 1]).magnitude;
         }
         return distance;
+    }
+
+    protected virtual void Die()
+    {
+        // Anything death related
+    }
+
+    protected void TryExitState()
+    {
+        OnExitStateThroughAnimationAttempt?.Invoke();
+    }
+
+    public event Action OnExitStateThroughAnimationAttempt;
+
+
+    protected void RotationTurn(int value)
+    {
+        if (value == 0) isRotating = false;
+        if (value == 1) isRotating = true;
     }
 }
