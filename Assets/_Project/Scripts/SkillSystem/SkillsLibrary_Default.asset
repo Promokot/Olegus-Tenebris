@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74349aaac2af4434dbc4c264e653189a, type: 3}
+  m_Name: SkillsLibrary_Default
+  m_EditorClassIdentifier: 
+  _skills:
+  - _skillName: Test
+    _skillDescription: Test skill, does something strange!
+    _skillBasicCooldown: 6
+    _skillIcon: {fileID: 21300000, guid: 4abd799459bcf474f86ed619b4320f1e, type: 3}
+    _skillPrefab: {fileID: 7392540430316437706, guid: 7a96249088708044d9901a5e929aa773, type: 3}
